@@ -35,7 +35,7 @@ def test_consulta_invalida_com_objetos_nulos():
 
 
 def test_consulta_invalida_com_intervalo_invalido():
-    with pytest.raises(ValueError):
+    with pytest.raises(TypeError):
         Consulta(
             medico=Dummy(),
             paciente=Dummy(),
