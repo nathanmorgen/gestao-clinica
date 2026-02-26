@@ -1,0 +1,7 @@
+vamos implementar o snapshot e logo depois disso:
+
+Ajustar 2 ou 3 contratos com base em casos reais
+
+Criar um caso de uso real (ex: agendar consulta)
+
+Só então pensar em persistência
