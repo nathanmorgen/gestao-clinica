@@ -12,7 +12,7 @@ Chamado exclusivamente pelos decorators de contrato.
 """
 
 from dataclasses import dataclass, asdict
-from datetime import datetime
+from datetime import datetime, UTC
 from typing import Any, Dict, List, Optional
 
 
@@ -51,7 +51,7 @@ def record_snapshot(
     Registra um snapshot de estado.
     """
     snapshot = Snapshot(
-        timestamp=datetime.utcnow().isoformat(),
+        timestamp=datetime.now(UTC).isoformat(),
         function_name=function_name,
         state_before=state_before,
         state_after=state_after,

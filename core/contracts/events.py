@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, UTC
 from typing import Dict, Any
 
 @dataclass(frozen=True)
@@ -14,6 +14,6 @@ class EventoContrato:
     @staticmethod
     def agora(**kwargs):
         return EventoContrato(
-            timestamp=datetime.utcnow().isoformat(),
+            timestamp = datetime.now(UTC).isoformat(),
             **kwargs
         )

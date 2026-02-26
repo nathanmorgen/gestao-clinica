@@ -1,4 +1,5 @@
 import pytest
+from core.contracts.errors import PreCondicaoVioladaError
 from core.intervalo_tempo import IntervaloTempo
 
 
@@ -40,7 +41,13 @@ def test_intervalos_sobrepostos():
 def test_contem_instante():
     intervalo = IntervaloTempo(10, 20)
 
+    # Dentro do domínio válido
     assert intervalo.contem(10)
     assert intervalo.contem(15)
-    assert not intervalo.contem(20)
-    assert not intervalo.contem(25)
+
+    # Fora do domínio válido → viola pré-condição
+    with pytest.raises(PreCondicaoVioladaError):
+        intervalo.contem(20)
+
+    with pytest.raises(PreCondicaoVioladaError):
+        intervalo.contem(25)
