@@ -15,7 +15,7 @@ class Agenda:
         return True
 
     @contrato(
-        pre=lambda self, consulta: consulta is not None,
+        pre=lambda self, consulta: (consulta is not None and hasattr(consulta, "intervalo") and hasattr(consulta, "medico") and hasattr(consulta, "sala")),
         pos=lambda self, _: self._invariante_sem_conflitos(),
         invariante=lambda self: self._invariante_sem_conflitos()
     )
