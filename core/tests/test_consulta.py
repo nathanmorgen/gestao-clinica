@@ -1,5 +1,5 @@
 import pytest
-
+from core.entity_id import EntityId
 from core.consulta import Consulta
 from core.intervalo_tempo import IntervaloTempo
 from core.contracts.errors import ContratoVioladoError
@@ -11,6 +11,7 @@ class Dummy:
 
 def test_consulta_valida_eh_criada():
     consulta = Consulta(
+        id=EntityId("c1"),
         medico=Dummy(),
         paciente=Dummy(),
         sala=Dummy(),
@@ -26,6 +27,7 @@ def test_consulta_valida_eh_criada():
 def test_consulta_invalida_com_objetos_nulos():
     with pytest.raises(ContratoVioladoError):
         Consulta(
+            id=EntityId("c2"),  # ID válido — erro deve vir dos outros campos
             medico=None,
             paciente=None,
             sala=None,
@@ -36,6 +38,7 @@ def test_consulta_invalida_com_objetos_nulos():
 def test_consulta_invalida_com_intervalo_invalido():
     with pytest.raises(ContratoVioladoError):
         Consulta(
+            id=EntityId("c3"),  # ID válido
             medico=Dummy(),
             paciente=Dummy(),
             sala=Dummy(),
@@ -45,6 +48,7 @@ def test_consulta_invalida_com_intervalo_invalido():
 
 def test_validar_preserva_invariante():
     consulta = Consulta(
+        id=EntityId("c4"),
         medico=Dummy(),
         paciente=Dummy(),
         sala=Dummy(),

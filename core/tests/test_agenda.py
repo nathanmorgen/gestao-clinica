@@ -3,6 +3,7 @@ import pytest
 from core.agenda import Agenda
 from core.intervalo_tempo import IntervaloTempo
 from core.consulta import Consulta
+from core.entity_id import EntityId
 from core.medico import Medico
 from core.paciente import Paciente
 from core.sala import Sala
@@ -10,6 +11,7 @@ from core.contracts.errors import InvarianteVioladaError
 
 
 def criar_consulta(
+    consulta_id,
     medico_id,
     sala_id,
     inicio,
@@ -21,6 +23,7 @@ def criar_consulta(
     intervalo = IntervaloTempo(inicio, fim)
 
     return Consulta(
+        id=EntityId(consulta_id),
         medico=medico,
         paciente=paciente,
         sala=sala,
@@ -32,6 +35,7 @@ def test_inserir_consulta_sem_conflito():
     agenda = Agenda()
 
     c1 = criar_consulta(
+        consulta_id="c1",
         medico_id=1,
         sala_id=1,
         inicio=10,
@@ -39,6 +43,7 @@ def test_inserir_consulta_sem_conflito():
     )
 
     c2 = criar_consulta(
+        consulta_id="c2",
         medico_id=2,
         sala_id=2,
         inicio=11,
@@ -55,6 +60,7 @@ def test_conflito_de_medico_mesmo_intervalo():
     agenda = Agenda()
 
     c1 = criar_consulta(
+        consulta_id="c1",
         medico_id=1,
         sala_id=1,
         inicio=10,
@@ -62,6 +68,7 @@ def test_conflito_de_medico_mesmo_intervalo():
     )
 
     c2 = criar_consulta(
+        consulta_id="c2",
         medico_id=1,  # mesmo médico
         sala_id=2,
         inicio=11,
@@ -78,6 +85,7 @@ def test_conflito_de_sala_mesmo_intervalo():
     agenda = Agenda()
 
     c1 = criar_consulta(
+        consulta_id="c1",
         medico_id=1,
         sala_id=1,
         inicio=10,
@@ -85,6 +93,7 @@ def test_conflito_de_sala_mesmo_intervalo():
     )
 
     c2 = criar_consulta(
+        consulta_id="c2",
         medico_id=2,
         sala_id=1,  # mesma sala
         inicio=11,
@@ -101,6 +110,7 @@ def test_consultas_retorna_copia():
     agenda = Agenda()
 
     c1 = criar_consulta(
+        consulta_id="c1",
         medico_id=1,
         sala_id=1,
         inicio=10,
