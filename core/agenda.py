@@ -20,6 +20,14 @@ class Agenda:
         invariante=lambda self: self._invariante_sem_conflitos()
     )
     def inserir(self, consulta):
+        #proteger identidade (Aggregate Root rule)
+        for existente in self._consultas:
+            if existente.id == consulta.id:
+                raise InvarianteVioladaError(
+                    "Já existe consulta com o mesmo id na agenda."
+                )
+
+        #proteger conflitos de negócio
         for existente in self._consultas:
             if existente.intervalo.sobrepoe(consulta.intervalo):
                 if existente.medico == consulta.medico:
@@ -28,6 +36,5 @@ class Agenda:
                     raise InvarianteVioladaError("Conflito de sala")
 
         self._consultas.append(consulta)
-
     def consultas(self):
         return list(self._consultas)

@@ -124,3 +124,28 @@ def test_consultas_retorna_copia():
 
     # estado interno não deve ser afetado
     assert len(agenda.consultas()) == 1
+
+def test_nao_permite_duas_consultas_com_mesmo_id():
+    agenda = Agenda()
+
+    c1 = criar_consulta(
+        consulta_id="duplicado",
+        medico_id=1,
+        sala_id=1,
+        inicio=10,
+        fim=11
+    )
+
+    c2 = criar_consulta(
+        consulta_id="duplicado",  # mesmo ID
+        medico_id=2,
+        sala_id=2,
+        inicio=12,
+        fim=13
+    )
+
+    agenda.inserir(c1)
+
+    with pytest.raises(InvarianteVioladaError):
+        agenda.inserir(c2)
+        
